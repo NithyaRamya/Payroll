@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <!-- <link href="style.css" rel="stylesheet"> -->
+  <title>Login Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Roboto", sans-serif;
+
+    }
+
+    input {
+      border-radius: 10px;
+      border: 1px solid gray;
+      height: 35px;
+      width: 350px;
+      background-color: transparent;
+    }
+
+    input::placeholder {
+      color: black;
+      font-family: sans-serif;
+
+    }
+
+    .input-wrapper {
+      position: relative;
+      width: 350px;
+      margin-bottom: 20px;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 10px 40px 10px 40px;
+      /*left and right padding for icons*/
+      box-sizing: border-box;
+
+    }
+
+    .input-wrapper .icon-left,
+    .input-wrapper .icon-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      pointer-events: none;
+      /* allow clicks through the icons */
+    }
+
+    .input-wrapper .icon-left {
+      left: 10px;
+    }
+
+    .input-wrapper .icon-right {
+      right: 10px;
+    }
+
+    .input-with-icon#name {
+      background-image: url('images/mail.png');
+      background-position: 10px center;
+      background-repeat: no-repeat;
+      background-size: 15px 15px;
+      padding-left: 40px;
+
+    }
+
+    .Login-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "left  right";
+    }
+
+    html {
+      background-image: url(images/output-onlinepngtools\ \(1\).png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+    }
+
+
+    .left img {
+      grid-area: left;
+      border-radius: 60%;
+      margin: 40px;
+      padding: 60px;
+      height: 600px;
+      width: 600px;
+
+    }
+
+    .right form {
+      grid-area: right;
+      align-items: start;
+      margin-left: 10%;
+      padding-top: 90px;
+      height: 600px;
+      width: 550px;
+
+
+    }
+
+    image {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    @media (max-width: 752px) {
+      .Login-form {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+          "left"
+          "right";
+      }
+
+      .left {
+        grid-area: left;
+      }
+
+      .right {
+        grid-area: right;
+      }
+    }
+
+    img {
+      color: white;
+      margin-right: 5px;
+      height: 15px;
+      width: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="Login-form">
+    <div class="left">
+      <img src="images/loginLogo. Gif.gif">
+    </div>
+    <div class="right">
+
+      <form onsubmit="loginUser(); return false;" autocomplete="off">
+        <h1 style="margin-bottom:60px;margin-left:20%;">Login</h1><br>
+        <label for="name"></label>
+        <input type="text" id="name" name="name" placeholder="Enter your Name" autocomplete="off"
+          class="input-with-icon" required><br><br><br>
+        <label for="password"></label>
+        <div class="input-wrapper">
+          <img src="images/Password.png" class="icon-left" alt="Password Icon">
+          <img src="images/hide.png" class="icon-right" alt="hide Icon">
+          <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password"
+            required>
+        </div>
+        <a href="forgotpassword.html" style="font-size: 0.9em;margin-left:43%;text-decoration: none;color: black;">Forgot
+          password?</a><br><br>
+        <input
+          style="cursor: pointer;background-color: #F8CC14;border: none;font-weight: bold;font-size: 20px;color: rgb(59, 58, 58);"
+          type="submit" value="Login">
+      </form>
+    </div>
+  </div>
+  <script>
+    function loginUser() {
+      const username = document.getElementById("name").value;
+      const pass = document.getElementById("password").value;
+
+      sessionStorage.setItem("loggedInUser", username);
+     window.location.href = "Overview.html";
+    }
+  </script>
+</body>
+</html>

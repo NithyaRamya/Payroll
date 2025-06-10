@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .container {
+      background-color: #ffecb3;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .cal-btn {
+      background-color: #37474F;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+
+
+    .form-row {
+      background-color: #ffecb3;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+    }
+
+    .form-group {
+      flex: 1;
+      /* all fields take equal width */
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+
+    .sidebar {
+
+      height: 150vh;
+
+
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+      }
+    }
+
+    /* Calendar */
+
+
+    #calendarContainer table {
+      border-collapse: collapse;
+
+    }
+
+    #calendarContainer th,
+    #calendarContainer td {
+      border: 1px solid #ccc;
+      padding: 5px;
+      width: 30px;
+      text-align: center;
+    }
+
+    #calendarContainer th {
+      background-color: #eee;
+    }
+
+    #calendarContainer button {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #444;
+    }
+
+    #calendarContainer button:hover {
+      color: red;
+    }
+
+   
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <ul>
+      <li><a href="Overview.html"><img src="images/Overview.png">Overview</a></li>
+      <li class="active"><a href="payroll.html"><img src="images/Payroll.png">Payroll</a></li>
+      <li><a href="payslip.html"><img src="images/Payroll.png"></i>Payslip</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="payroll">
+    <div class="header">
+      <h2>Payroll Details</h2>
+      <div class="header-actions">
+        <button id="calendarBtn" class="month-btn">This Month 📅</button>
+        <div id="calendarContainer"
+          style="display:none; position:absolute; background:#fff; border:1px solid #ccc;padding:5px; "></div>
+        <script>
+          document.getElementById('calendarBtn').addEventListener('click', () => {
+            const button = document.getElementById('calendarBtn');
+            const container = document.getElementById('calendarContainer');
+
+            if (container.style.display === 'none') {
+              // Position to the left of the button
+              const rect = button.getBoundingClientRect();
+              container.style.top = `${rect.top + window.scrollY}px`;
+              container.style.left = `${rect.left + window.scrollX - container.offsetWidth - 30}px`;
+              container.innerHTML = generateCalendar();
+              container.style.display = 'block';
+            } else {
+              container.style.display = 'none';
+            }
+          });
+
+          function generateCalendar() {
+            const today = new Date();
+            const month = today.getMonth();
+            const year = today.getFullYear();
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let calendar = `
+    <div style="text-align:right;">
+      <button onclick="document.getElementById('calendarContainer').style.display='none'" style="cursor:pointer;">✖</button>
+    </div>
+    <strong>${today.toLocaleString('default', { month: 'long' })} ${year}</strong><br>
+    <table>
+      <tr>
+        ${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => `<th>${day}</th>`).join('')}
+      </tr><tr>
+  `;
+
+            for (let i = 0; i < firstDay; i++) {
+              calendar += '<td></td>';
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+              if ((firstDay + d - 1) % 7 === 0 && d !== 1) {
+                calendar += '</tr><tr>';
+              }
+              calendar += `<td>${d}</td>`;
+            }
+
+            calendar += '</tr></table>';
+            return calendar;
+          }
+        </script>
+        <button class="download-btn" id="btn" onclick="downloadPDF()">Download</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label><strong>Employee Name</strong></label>
+        <input id="name" placeholder="Employee Name">
+      </div>
+      <div class="form-group">
+        <label><strong>Employee Role</strong></label>
+        <input id="role" placeholder="Employee Role">
+      </div>
+      <div class="form-group">
+        <label><strong>Employee Id</strong></label>
+        <input id="id" placeholder="Employee ID">
+      </div>
+      <div class="form-group">
+        <label><strong>Date</strong></label>
+        <input id="date" type="date">
+      </div>
+      <div class="form-group">
+        <label><strong>Basic Salary</strong></label>
+        <input id="salary" placeholder="Basic Salary" type="number">
+      </div>
+      <div class="form-group">
+        <label><strong>Working Days</strong></label>
+        <input id="working" placeholder="Working Days" type="number">
+      </div>
+      <div class="form-group">
+        <label><strong>Present Days</strong></label>
+        <input id="present" placeholder="Present Days" type="number">
+      </div>
+      <div class="form-group">
+        <label><strong>Additions</strong></label>
+        <input id="additions" placeholder="Additions" type="number">
+      </div>
+      <div class="form-group">
+        <label><strong>Leave Days</strong></label>
+        <input id="leave" placeholder="Leave Days" readonly>
+      </div>
+      <div class="form-group">
+        <label><strong>Deductions</strong></label>
+        <input id="deductions" placeholder="Deductions" readonly>
+      </div>
+      <div class="form-group">
+        <label><strong>Total Salary</strong></label>
+        <input id="total" placeholder="Total Salary" readonly>
+      </div><br>
+      <!-- <button class="cal-btn" id="calbtn" onclick="calculate()">Calculate</button> -->
+      <button class="submit-btn" id="submitbtn" onclick="submitPayroll()">Submit Payroll</button>
+      <button class="cal-btn" id="calbtn" onclick="overview()">Cancel</button>
+    </div>
+  </div>
+  </div>
+  <script>
+    const basicSalaryInput = document.getElementById('salary');
+    const workingDaysInput = document.getElementById('working');
+    const presentDaysInput = document.getElementById('present');
+    const leaveDaysInput = document.getElementById('leave');
+    const additionsInput = document.getElementById('additions');
+    const deductionsInput = document.getElementById('deductions');
+    const totalSalaryInput = document.getElementById('total');
+
+    function calculate() {
+      const basic = parseFloat(basicSalaryInput.value) || 0;
+      const workingDays = parseInt(workingDaysInput.value) || 0;
+      const presentDays = parseInt(presentDaysInput.value) || 0;
+      const additions = parseFloat(additionsInput.value) || 0;
+
+      let leaveDays = workingDays - presentDays;
+      leaveDaysInput.value = leaveDays;
+      if (leaveDays < 0) leaveDays = 0;
+
+      additionsInput.value = additions;
+
+      let deduction = basic * leaveDays;
+      let totalSalary = (basic * presentDays) + additions - deduction;
+
+      if (workingDays >= presentDays) {
+        deductionsInput.value = deduction.toFixed(2);
+        totalSalaryInput.value = totalSalary.toFixed(2);
+      } else {
+        alert("Total Present Days cannot be greater than Working Days.");
+        presentDaysInput.value = '';
+        leaveDaysInput.value = '';
+        deductionsInput.value = '';
+        totalSalaryInput.value = '';
+        return;
+      }
+    }
+
+    basicSalaryInput.addEventListener('input', calculate);
+    workingDaysInput.addEventListener('input', calculate);
+    presentDaysInput.addEventListener('input', calculate);
+    additionsInput.addEventListener('input', calculate);
+
+    function submitPayroll() {
+      const data = {
+        name: document.getElementById('name').value,
+        role: document.getElementById('role').value,
+        id: document.getElementById('id').value,
+        date: document.getElementById('date').value,
+        salary: document.getElementById('salary').value,
+        additions: document.getElementById('additions').value,
+        deductions: document.getElementById('deductions').value,
+        total: document.getElementById('total').value,
+        leave: document.getElementById('leave').value,
+        present: document.getElementById('present').value
+      };
+      localStorage.setItem('payrollData', JSON.stringify(data));
+      window.location.href = 'payslip.html';
+    }
+
+    function overview() {
+      window.location.href = 'overview.html';
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const element = document.getElementById('payroll');
+      const opt = {
+        margin: 0,
+        filename: 'payroll.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save('Payroll.pdf');
+      calbtn.style.display = "none";
+      submitbtn.style.display = "none";
+      calendarBtn.style.display = "none";
+      btn.style.display = "none";
+    }
+
+  </script>
+</body>
+
+</html>

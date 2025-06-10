@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payslip</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card {
+      padding: 20px;
+      width: 100%;
+      background: #fff9db;
+      height: 100vh
+    }
+
+    .card h2 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-weight: bold;
+      padding: 5px;
+    }
+
+    table,
+    td,
+    th {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <ul>
+      <li><a href="Overview.html"><img src="images/Overview.png">Overview</a></li>
+      <li><a href="payroll.html"><img src="images/Payroll.png">Payroll</a></li>
+      <li class="active"><a href="payslip.html"><img src="images/Payroll.png">Payslip</a></li>
+    </ul>
+  </div>
+  <div class="card" id="payslip">
+    <h2>Payslip Details</h2>
+    <p><strong>Employee Name:</strong> <span id="name"></span></p>
+    <p><strong>Employee Role:</strong> <span id="role"></span></p>
+    <p> <strong>Employee Id:</strong> <span id="id"></span></p>
+    <p><strong>Date:</strong> <span id="date"></span></p>
+
+
+    <!-- Table copy -->
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Employee Details</th>
+          <th colspan="4">Earnings</th>
+          <th colspan="2">Deductions</th>
+
+
+        </tr>
+        <tr>
+          <th>Employee I'd</th>
+          <th>Employee Name</th>
+          <th>Basic salary</th>
+          <th>Present Days</th>
+          <th>Additions</th>
+          <th>Total Salary</th>        
+          <th>Leave Days</th>
+          <th>Deductions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="tableEmpId"></td>
+          <td id="tableEmpName"></td>
+          <td id="salary"></td>
+          <td id="present"></td>
+          <td id="additions"></td>
+          <td id="total"></td>          
+          <td id="leave"></td>
+          <td id="deductions"></td>
+        </tr>
+      </tbody>
+    </table><br>
+
+
+    <button style="margin-left:40%" class="download-btn" id="downloadBtn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    const data = JSON.parse(localStorage.getItem('payrollData'));
+
+    document.getElementById('tableEmpName').innerText = data.name;
+    document.getElementById('tableEmpId').innerText = data.id;
+    document.getElementById('name').innerText = data.name;
+    document.getElementById('role').innerText = data.role;
+    document.getElementById('id').innerText = data.id;
+    document.getElementById('date').innerText = data.date;
+    document.getElementById('salary').innerText = data.salary;
+    document.getElementById('additions').innerText = data.additions;
+    document.getElementById('deductions').innerText = data.deductions;
+    document.getElementById('total').innerText = data.total;
+    document.getElementById('leave').innerText = data.leave;
+    document.getElementById('present').innerText = data.present;
+
+
+
+    function downloadPDF() {
+      const element = document.getElementById('payslip');
+      html2pdf().from(element).save('Payslip.pdf');
+      downloadBtn.style.display = "none";
+    }
+  </script>
+</body>
+
+</html>
