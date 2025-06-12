@@ -278,7 +278,8 @@
         deductions: document.getElementById('deductions').value,
         total: document.getElementById('total').value,
         leave: document.getElementById('leave').value,
-        present: document.getElementById('present').value
+        present: document.getElementById('present').value,
+        working: document.getElementById('working').value
       };
       localStorage.setItem('payrollData', JSON.stringify(data));
       window.location.href = 'payslip.html';

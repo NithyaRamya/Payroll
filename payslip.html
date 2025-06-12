@@ -11,7 +11,7 @@
       padding: 20px;
       width: 100%;
       background: #fff9db;
-      height: 100vh
+      /* height: 100vh */
     }
 
     .card h2 {
@@ -26,10 +26,103 @@
     table,
     td,
     th {
-      border: 1px solid black;
+      border: 0.5px solid black;
       border-collapse: collapse;
       padding: 8px;
     }
+
+    .footer {
+      margin-top: 140px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      border-top: 1px solid #252020;
+      padding-top: 15px;
+    }
+
+    .total {
+      font-weight: bold;
+      background-color: #fbc02d;
+    }
+
+    .header img {
+      height: 80px;
+      width: 150px;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      flex-shrink: 2;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+    }
+
+    .contact-info {
+      text-align: left;
+      margin-right: 20px;
+      margin-top: -10px;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .label {
+      font-weight: bold;
+      display: inline-block;
+      width: 150px;
+      /* adjust as needed for alignment */
+    }
+
+    .value {
+      font-weight: normal;
+    }
+    @media print {
+  body,
+  .card,
+  .sidebar,
+  .header,
+  table,
+  td,
+  th,
+  .footer {
+    background: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  table {
+    border: 1px solid #000 !important;
+  }
+
+  th {
+    background: #eee !important;
+    font-weight: bold;
+  }
+
+  .total {
+    background-color: #ccc !important;
+    font-weight: bold;
+  }
+
+  .download-btn {
+    display: none !important;
+  }
+
+  img {
+    filter: grayscale(100%);
+  }
+}
+
+.grayscale {
+  filter: grayscale(100%) !important;
+  background: #fff !important;
+  color: #000 !important;
+}
   </style>
 </head>
 
@@ -42,62 +135,83 @@
     </ul>
   </div>
   <div class="card" id="payslip">
-    <h2>Payslip Details</h2>
-    <p><strong>Employee Name:</strong> <span id="name"></span></p>
-    <p><strong>Employee Role:</strong> <span id="role"></span></p>
-    <p> <strong>Employee Id:</strong> <span id="id"></span></p>
-    <p><strong>Date:</strong> <span id="date"></span></p>
+    <h2 style="margin-bottom: 0;text-align: center;">Payslip</h2>
+    <div class="header">
+      <img src="images/logoN.png" alt="Company Logo">
+      <div>
 
+        <div class="contact-info">
+          <p>Email: hr@example.com</p>
+          <p>Contact: +91-9876543210</p>
+        </div>
+      </div>
+    </div>
 
-    <!-- Table copy -->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2">Employee Details</th>
-          <th colspan="4">Earnings</th>
-          <th colspan="2">Deductions</th>
+    <div class="details">
+      <h2>Employee Details</h2>
+      <p><span class="label">Employee Name:</span> <span class="value" id="name"></span></p>
+      <p><span class="label">Employee ID:</span> <span class="value" id="id"></span></p>
+      <p><span class="label">Pay Month:</span> <span class="value" id="date"></span></p>
+      <p><span class="label">Employee Role:</span> <span class="value" id="role"></span></p>
+    </div>
 
-
-        </tr>
-        <tr>
-          <th>Employee I'd</th>
-          <th>Employee Name</th>
-          <th>Basic salary</th>
-          <th>Present Days</th>
-          <th>Additions</th>
-          <th>Total Salary</th>        
-          <th>Leave Days</th>
-          <th>Deductions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td id="tableEmpId"></td>
-          <td id="tableEmpName"></td>
-          <td id="salary"></td>
-          <td id="present"></td>
-          <td id="additions"></td>
-          <td id="total"></td>          
-          <td id="leave"></td>
-          <td id="deductions"></td>
-        </tr>
-      </tbody>
-    </table><br>
+    <div class="salary">
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Basic Salary</td>
+            <td id="salary"></td>
+          </tr>
+          <tr>
+            <td>Present Days</td>
+            <td id="present"></td>
+          </tr>
+          <tr>
+            <td>Leave Days</td>
+            <td id="leave"></td>
+          </tr>
+          <tr>
+            <td>Deductions</td>
+            <td id="deductions"></td>
+          </tr>
+          <tr>
+            <td>Additions</td>
+            <td id="additions"></td>
+          </tr>
+          <tr class="total">
+            <td>Total Salary</td>
+            <td id="total"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br>
 
 
     <button style="margin-left:40%" class="download-btn" id="downloadBtn" onclick="downloadPDF()">Download PDF</button>
+
+    <div class="footer">
+      This is a system-generated payslip and does not require a signature.<br>
+      Thank you for your service!
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     const data = JSON.parse(localStorage.getItem('payrollData'));
 
-    document.getElementById('tableEmpName').innerText = data.name;
-    document.getElementById('tableEmpId').innerText = data.id;
     document.getElementById('name').innerText = data.name;
-    document.getElementById('role').innerText = data.role;
     document.getElementById('id').innerText = data.id;
     document.getElementById('date').innerText = data.date;
+    document.getElementById('role').innerText = data.role;
+
+
     document.getElementById('salary').innerText = data.salary;
     document.getElementById('additions').innerText = data.additions;
     document.getElementById('deductions').innerText = data.deductions;
@@ -109,8 +223,18 @@
 
     function downloadPDF() {
       const element = document.getElementById('payslip');
+const opt = {
+        margin: 0,
+        filename: 'payroll.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      
       html2pdf().from(element).save('Payslip.pdf');
       downloadBtn.style.display = "none";
+
     }
   </script>
 </body>
